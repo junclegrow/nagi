@@ -1,0 +1,237 @@
+(defvar
+    timeout 100
+    macro-delay 10
+)
+
+(defcfg
+    process-unmapped-keys yes
+)
+
+(defsrc
+    q    w    e    r    t    y    u    i    o    p
+    a    s    d    f    g    h    j    k    l    ;
+    z    x    c    v    b    n    m    ,    .    /
+    lshift spc rshift
+)
+
+(deflayer single
+    (t! stroke q) (t! stroke w) (t! stroke e) (t! stroke r) up   down (t! stroke u) (t! stroke i) (t! stroke o) (t! stroke p)
+    (t! stroke a) (t! stroke s) (t! stroke d) (t! stroke f) (t! stroke g) (t! stroke h) (t! stroke j) (t! stroke k) (t! stroke l) (t! stroke ;)
+    (t! stroke z) (t! stroke x) (t! stroke c) (t! stroke v) (t! stroke b) (t! stroke n) (t! stroke m) (t! stroke ,) (t! stroke .) (t! stroke /)
+    @ime-off @sands-nagi @ime-on
+)
+
+(deftemplate stroke (key) (fork (chord nagi $key) $key (lctrl rctrl lmeta rmeta lalt ralt lshift rshift)))
+
+(defalias
+    sands-nagi (tap-hold-press $timeout 500 spc (layer-while-held shifted))
+    sands-qwerty (tap-hold-press $timeout 500 spc lshift)
+    ime-off (tap-hold-press $timeout 500 (multi (arbitrary-code 26) (layer-switch qwerty)) lshift)
+    ime-on (tap-hold-press $timeout 500 (multi (arbitrary-code 22) (layer-switch single)) rshift)
+)
+
+(deflayer shifted
+    XX   🔣ぬ   🔣り   🔣め   XX   XX   🔣さ   🔣よ   🔣え   🔣ゆ
+    🔣せ   🔣み   🔣に   🔣ま   🔣ち   🔣や   🔣の   🔣も   🔣つ   🔣ふ
+    XX   XX   🔣を   (macro 🔣、 ret) 🔣む   🔣お   (macro 🔣。 ret) 🔣ね   🔣わ   🔣れ
+    XX     XX  XX
+)
+
+(deflayer symbol-1
+    (macro 🔣※) (macro 🔣★) (macro 🔣◆) 🔣・   🔣〇   XX   XX   XX   XX   XX
+    @3dot (macro 🔣（ ret) (macro 🔣？ ret) (macro 🔣「 ret) (macro 🔣【 ret) XX   XX   XX   XX   XX
+    @dash (macro 🔣） ret) (macro 🔣！ ret) (macro 🔣」 ret) (macro 🔣】 ret) XX   XX   XX   XX   XX
+    XX     XX  XX
+)
+
+(deflayer symbol-2  
+    XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+    (macro 🔣《 ret) (macro 🔣《 ret) (macro 🔣？ ret) (macro 🔣『 ret) (macro 🔣《 ret) XX   XX   XX   XX   XX
+    (macro 🔣》 ret) (macro 🔣》 ret) (macro 🔣！ ret) (macro 🔣』 ret) (macro 🔣》 ret) XX   XX   XX   XX   XX
+    XX     XX  XX
+)
+
+(deflayer markdown
+    (macro 1 . spc) (macro 🔣> spc) (macro 🔣* 🔣* ) (macro - f8 spc) XX   XX   XX   XX   XX   XX
+    XX   XX   @h3  @h2  XX   XX   XX   XX   XX   XX
+    XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+    XX     XX  XX
+)
+
+(defalias
+    3dot (macro 🔣… $macro-delay 🔣…)
+    dash (macro 🔣— $macro-delay 🔣— ret)
+
+    h2 (macro 🔣# $macro-delay 🔣# S-spc)
+    h3 (macro 🔣# $macro-delay 🔣# $macro-delay 🔣# S-spc)
+)
+
+(deflayer edit-1
+    XX   XX   XX   XX   XX   XX   home up   end  XX
+    lrld XX   XX   XX   XX   XX   left down right XX
+    XX   XX   XX   XX   XX   XX   XX   XX   XX   XX
+    XX     XX  XX
+)
+
+(deflayer edit-2
+    XX   XX   XX   XX   XX   XX   (multi shft home) (multi shft up) (multi shft end) XX
+    lrld XX   XX   XX   XX   XX   (multi shft left) (multi shft down) (multi shft right) XX
+    XX   XX   XX   XX   XX   conv (multi shft ret) XX   XX   XX
+    XX     XX  XX
+)
+
+(deflayer qwerty
+    q    w    e    r    t    y    u    i    o    p
+    a    s    d    f    g    h    j    k    l    ;
+    z    x    c    v    b    n    m    ,    .    /
+    @ime-off @sands-qwerty @ime-on
+)
+
+(defchords nagi $timeout
+    (w) 🔣き
+    (e) 🔣て
+    (r) 🔣し
+    (u) bks
+    (i) 🔣る
+    (o) 🔣す
+    (p) 🔣へ
+    (a) 🔣ろ
+    (s) 🔣け
+    (d) 🔣と
+    (f) 🔣か
+    (g) 🔣っ
+    (h) 🔣く
+    (j) 🔣あ
+    (k) 🔣い
+    (l) 🔣う
+    (;) 🔣ー
+    (z) 🔣ほ
+    (x) 🔣ひ
+    (c) 🔣は
+    (v) 🔣こ
+    (b) 🔣そ
+    (n) 🔣た
+    (m) 🔣な
+    (,) 🔣ん
+    (.) 🔣ら
+    (/) 🔣れ
+
+    (w j) 🔣ぎ
+    (e j) 🔣で
+    (r j) 🔣じ
+    (u f) 🔣ざ
+    (o f) 🔣ず
+    (p f) 🔣べ
+    (a j) 🔣ぜ
+    (s j) 🔣げ
+    (d j) 🔣ど
+    (f j) 🔣が
+    (g j) 🔣ぢ
+    (h f) 🔣ぐ
+    (l f) 🔣づ
+    (; f) 🔣ぶ
+    (z j) 🔣ぼ
+    (x j) 🔣び
+    (c j) 🔣ば
+    (v j) 🔣ご
+    (b j) 🔣ぞ
+    (n f) 🔣だ
+
+    (w h) (macro 🔣き 🔣ゃ)
+    (e h) (macro 🔣り 🔣ゃ)
+    (r h) (macro 🔣し 🔣ゃ)
+    (s h) (macro 🔣み 🔣ゃ)
+    (d h) (macro 🔣に 🔣ゃ)
+    (g h) (macro 🔣ち 🔣ゃ)
+    (x h) (macro 🔣ひ 🔣ゃ)
+
+    (w p) (macro 🔣き 🔣ゅ)
+    (e p) (macro 🔣り 🔣ゅ)
+    (r p) (macro 🔣し 🔣ゅ)
+    (s p) (macro 🔣み 🔣ゅ)
+    (d p) (macro 🔣に 🔣ゅ)
+    (g p) (macro 🔣ち 🔣ゅ)
+    (x p) (macro 🔣ひ 🔣ゅ)
+
+    (w i) (macro 🔣き 🔣ょ)
+    (e i) (macro 🔣り 🔣ょ)
+    (r i) (macro 🔣し 🔣ょ)
+    (s i) (macro 🔣み 🔣ょ)
+    (d i) (macro 🔣に 🔣ょ)
+    (g i) (macro 🔣ち 🔣ょ)
+    (x i) (macro 🔣ひ 🔣ょ)
+
+    (w h j) (macro 🔣ぎ 🔣ゃ)
+    (r h j) (macro 🔣じ 🔣ゃ)
+    (g h j) (macro 🔣ぢ 🔣ゃ)
+    (x h j) (macro 🔣び 🔣ゃ)
+
+    (w p j) (macro 🔣ぎ 🔣ゅ)
+    (r p j) (macro 🔣じ 🔣ゅ)
+    (g p j) (macro 🔣ぢ 🔣ゅ)
+    (x p j) (macro 🔣び 🔣ゅ)
+
+    (w i j) (macro 🔣ぎ 🔣ょ)
+    (r i j) (macro 🔣じ 🔣ょ)
+    (g i j) (macro 🔣ぢ 🔣ょ)
+    (x i j) (macro 🔣び 🔣ょ)
+
+    (z m) 🔣ぽ
+    (x m) 🔣ぴ
+    (c m) 🔣ぱ
+    (p v) 🔣ぺ
+    (; v) 🔣ぷ
+    
+    (x m h) (macro 🔣ぴ 🔣ゃ)
+    (x m p) (macro 🔣ぴ 🔣ゅ)
+    (x m i) (macro 🔣ぴ 🔣ょ)
+
+    (q j) 🔣ぁ
+    (q k) 🔣ぃ
+    (q l) 🔣ぅ
+    (q o) 🔣ぇ
+    (q n) 🔣ぉ
+    (q h) 🔣ゃ
+    (q p) 🔣ゅ
+    (q i) 🔣ょ
+    (q .) 🔣ゎ
+
+    (e m k) (macro 🔣て 🔣ぃ)
+    (e j k) (macro 🔣で 🔣ぃ)
+    (d m l) (macro 🔣と 🔣ぅ)
+    (d j l) (macro 🔣ど 🔣ぅ)
+    (e m p) (macro 🔣て 🔣ゅ)
+    (e j p) (macro 🔣で 🔣ゅ)
+    (r m o) (macro 🔣し 🔣ぇ)
+    (g m o) (macro 🔣ち 🔣ぇ)
+    (r j o) (macro 🔣じ 🔣ぇ)
+    (g j o) (macro 🔣ぢ 🔣ぇ)
+
+    (l k v) (macro 🔣う 🔣ぃ)
+    (l o v) (macro 🔣う 🔣ぇ)
+    (l n v) (macro 🔣う 🔣ぉ)
+    (k o v) (macro 🔣い 🔣ぇ)
+    (l j v) (macro 🔣つ 🔣ぁ)
+    (; j v) (macro 🔣ふ 🔣ぁ)
+    (; k v) (macro 🔣ふ 🔣ぃ)
+    (; o v) (macro 🔣ふ 🔣ぇ)
+    (; n v) (macro 🔣ふ 🔣ぉ)
+    (; p v) (macro 🔣ふ 🔣ゅ)
+    (h j v) (macro 🔣く 🔣ぁ)
+    (h k v) (macro 🔣く 🔣ぃ)
+    (h o v) (macro 🔣く 🔣ぇ)
+    (h n v) (macro 🔣く 🔣ぉ)
+    (h . v) (macro 🔣く 🔣ゎ)
+    (h k f) (macro 🔣ぐ 🔣ぁ)
+    (h l f) (macro 🔣ぐ 🔣ぃ)
+    (h o f) (macro 🔣ぐ 🔣ぇ)
+    (h n f) (macro 🔣ぐ 🔣ぉ)
+    (h . f) (macro 🔣ぐ 🔣ゎ)
+
+    (j k) (layer-while-held symbol-1)
+    (m ,) (layer-while-held symbol-2)
+    (m k) (layer-while-held markdown)
+    (d f) (layer-while-held edit-1)
+    (c v) (layer-while-held edit-2)
+    (v m) ret
+)
